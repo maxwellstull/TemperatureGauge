@@ -35,31 +35,6 @@ handle.HDDEnabled = True
 handle.Open()
 
 
-def parse_sensor(sensor):
-        if sensor.Value is not None:
-
-            sensortypes = openhardwaremonitor_sensortypes
-            hardwaretypes = openhardwaremonitor_hwtypes
-
-          #  if sensor.SensorType == sensortypes.index('Temperature'):
-            #print(u"[%s][%s][%i][%s] - [%s]" % (hardwaretypes[sensor.Hardware.HardwareType], sensor.Hardware.Name, sensor.Index, sensor.Name, sensor.Value))
-            if False:
-                print(sensor.Hardware.Name)
-                print(sensor.Hardware.HardwareType)
-                print(sensor.Hardware.Identifier)
-                print(sensor.Hardware.Parent)
-                print(sensor.Name)
-                print(sensor.Identifier)
-                print(sensor.SensorType)
-                try:
-                    print(sensor.Parent)
-                except:
-                    print("No Parent")
-                print(sensor.Value)
-                print(sensor.Index)
-
-                print("\n")
-
 dicty = {}
 from classes import OHardware, OSensor, CQueue
 ## once
@@ -86,6 +61,3 @@ for _ in range(0,10): # Loop to read
 
 for key, value in dicty.items():
     print(value.short())
-
-
-dicky = CQueue(64) 

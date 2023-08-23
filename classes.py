@@ -22,6 +22,8 @@ class CQueue():
         self.insert_ptr += 1
         if self.insert_ptr >= self.size:
             self.insert_ptr = 0
+    def append(self, value):
+        self.put(value)
     def __repr__(self):
         retval = "["
         for i in self.listy[self.insert_ptr:]:
@@ -77,7 +79,7 @@ class OSensor():
         self.value = value
         self.index = index
         self.id = iden
-        self.history = []
+        self.history = CQueue(32)
     def __repr__(self):
         retval = "\tSensor:\n\t\tName:" + str(self.name)
         retval += "\n\t\tType:" + str(self.type)

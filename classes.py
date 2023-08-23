@@ -23,9 +23,17 @@ class CQueue():
         if self.insert_ptr >= self.size:
             self.insert_ptr = 0
     def __repr__(self):
-        retval = ""
-        retval += str(self.listy[self.insert_ptr:]) + str(self.listy[0:self.insert_ptr])
-        return retval        
+        retval = "["
+        for i in self.listy[self.insert_ptr:]:
+            retval += str(i) + ", "
+        for i in self.listy[0:self.insert_ptr]:
+            retval += str(i) + ", "
+        retval = retval[:-2]
+        retval += "]"     
+        return retval     
+    def get_avg(self):
+        avg = self.sum / self.elements 
+        return avg  
 
 openhardwaremonitor_hwtypes = ['Mainboard','SuperIO','CPU','RAM','GpuNvidia','GpuAti','TBalancer','Heatmaster','HDD']
 openhardwaremonitor_sensortypes = ['Voltage','Clock','Temperature','Load','Fan','Flow','Control','Level','Factor','Power','Data','SmallData','Throughput']

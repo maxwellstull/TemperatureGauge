@@ -48,8 +48,9 @@ for i in handle.Hardware: # Iterate over each hardware component (CPU, GPU, RAM)
             new_sensor = OSensor(sensor.Name,sensor.SensorType,sensor.Value,sensor.Index, sensor.Identifier)
             new_hw.add_sensor(str(sensor.SensorType), new_sensor)
     dicty[i.Identifier] = new_hw
+print("Initialization Completed")
 
-for _ in range(0,10): # Loop to read
+for _ in range(0,60): # Loop to read
     time.sleep(0.1) # Leave a gap
     for i in handle.Hardware:
         i.Update()

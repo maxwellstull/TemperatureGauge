@@ -20,17 +20,26 @@
 #    print(value) # printing the value
 openhardwaremonitor_hwtypes = ['Mainboard','SuperIO','CPU','RAM','GpuNvidia','GpuAti','TBalancer','Heatmaster','HDD']
 openhardwaremonitor_sensortypes = ['Voltage','Clock','Temperature','Load','Fan','Flow','Control','Level','Factor','Power','Data','SmallData','Throughput']
+
+REFRESH_RATE_HZ = 0.5
+
+
 import time
 from hardwareLogger import hardwareLogger
 
-hw = hardwareLogger()
+def main():
+    refresh_period_sec = 1/REFRESH_RATE_HZ
+    hw = hardwareLogger()
 
-for _ in range(0,60): # Loop to read
-    time.sleep(0.5)
-    start = time.time()
-    hw.read()
-    end = time.time()
-    print("Read duration: {t:4.4}s".format(t=end-start))
+    for _ in range(0,10): # Loop to read
+        start = time.time()
+        hw.read()
+        time.sleep(refresh_period_sec - (time.time() - start))
 
-for key, value in hw.hardware_obj_dict.items():
-    print(value.short())
+
+    for key, value in hw.hardware_obj_dict.items():
+        print(value.short())
+
+
+if __name__ == "__main__":
+    main()

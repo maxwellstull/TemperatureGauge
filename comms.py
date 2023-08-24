@@ -25,16 +25,17 @@ REFRESH_RATE_HZ = 0.5
 
 
 import time
+import asyncio
 from hardwareLogger import hardwareLogger
 
-def main():
+async def main():
     refresh_period_sec = 1/REFRESH_RATE_HZ
     hw = hardwareLogger()
 
     for _ in range(0,10): # Loop to read
         start = time.time()
         hw.read()
-        time.sleep(refresh_period_sec - (time.time() - start))
+        await asyncio.sleep(refresh_period_sec - (time.time() - start))
 
 
     for key, value in hw.hardware_obj_dict.items():
@@ -42,4 +43,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())

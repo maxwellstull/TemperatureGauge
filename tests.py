@@ -42,7 +42,7 @@ def run_tests():
     t3.put(3)
     t3.put(4)
     expected_avg = 2.5
-    if 0.01 < abs(expected_avg - t3.get_avg()):
+    if 0.01 > abs(expected_avg - t3.get_avg()):
         print("T3 passed")
     else:
         print("T3 failed")
@@ -55,7 +55,7 @@ def run_tests():
     t4.put(4)
     t4.put(5)
     expected_avg = 3.5
-    if 0.01 < abs(expected_avg - t4.get_avg()):
+    if 0.01 > abs(expected_avg - t4.get_avg()):
         print("T4 passed")
     else:
         print("T4 failed")

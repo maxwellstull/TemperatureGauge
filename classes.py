@@ -42,10 +42,10 @@ openhardwaremonitor_sensortypes = ['Voltage','Clock','Temperature','Load','Fan',
 
 class OHardware():
     def __init__(self, id, name, htype, parent):
-        self.id = id
-        self.name = name
-        self.type = htype
-        self.parent = parent
+        self.id = str(id)
+        self.name = str(name)
+        self.type = str(htype)
+        self.parent = str(parent)
         self.sensors = {}
         for i in openhardwaremonitor_sensortypes:
             self.sensors[i] = []
@@ -74,11 +74,11 @@ class OHardware():
 
 class OSensor():
     def __init__(self, name, stype, value, index, iden):
-        self.name = name
-        self.type = stype
+        self.name = str(name)
+        self.type = str(stype)
         self.value = value
-        self.index = index
-        self.id = iden
+        self.index = str(index)
+        self.id = str(iden)
         self.history = CQueue(32)
     def __repr__(self):
         retval = "\tSensor:\n\t\tName:" + str(self.name)

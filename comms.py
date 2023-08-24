@@ -38,7 +38,7 @@ def main():
 
 
     for key, value in hw.hardware_obj_dict.items():
-        print(value.short())
+        print(value)
 
 
 if __name__ == "__main__":

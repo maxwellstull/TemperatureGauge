@@ -1,0 +1,16 @@
+- Make it run forever
+- Figure out simple way to isolate desired values
+    Desired values:
+        + GPU temperature
+        + CPU temperature
+        + GPU load
+        + CPU load
+        + RAM load
+- Figure out how to turn into executable (or at least file you can double click to run)
+- Create very basic GUI for executable that lets you adjust stuff 
+- Figure out stuff to let user adjust
+- Add arduino code to this repo
+- Implement arduino code 
+    + Read serial
+    + Movement rate of arm so that there isnt a servo just constantly going from 0 to 14 to 3 to 83 on the CPU load gauge
+    + add lights?

@@ -88,7 +88,7 @@ class OSensor():
         retval += "\n\t\tID:" + str(self.id)
         return retval
     def short(self):
-        retval = str(self.id) +": "+ str(self.value) + str(self.history)
+        retval = str(self.id) +": "+ str(self.value) + "[" + str(self.history.get_avg())+"]"
         return retval
     def log(self, value):
         self.history.append(self.value)

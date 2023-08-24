@@ -55,7 +55,6 @@ for _ in range(0,60): # Loop to read
     for i in handle.Hardware:
         i.Update()
         recalled = dicty[i.Identifier]
-
         for sensor in i.Sensors:
             if sensor.Value is not None:
                 recalled.sens_ids[sensor.Identifier].log(sensor.Value)

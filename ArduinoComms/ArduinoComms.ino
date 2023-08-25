@@ -36,52 +36,94 @@ void loop() {
  Serial.print(x + 1);
 }
 */
+int getRangeAdjustedValues(int value, int details[3])
+{
+  int leftBound = details[1];
+  int rightBound = details[2];
+  int diff = leftBound - rightBound;
+  float retval = float(leftBound) - ((float(value)/100)*float(diff));
+  return int(retval);
+}
 #include <Servo.h>
 Servo CT;
 Servo GT;
 Servo RL;
 Servo CL;
 Servo GL;
-int angle = 0;
+
+float values[5];
+Servo servos[5];
+int details[5][3] = {{5, 140, 30},{6, 170, 10},{9, 120, 60},{10,120,60},{11,120,60}};
+int fake_numbers[5][100];
+int counter=0;
+
 void setup() {
-  CT.attach(6);
-  GT.attach(9);
-  RL.attach(10);
-  CL.attach(11);
-  GL.attach(13);
-/*
-  CT.write(90);
-  GT.write(90);
-  RL.write(90);
-  CL.write(90);
-  GL.write(90);
-*/
-  CT.write(135);
-  GT.write(170);
-  RL.write(120);
-  CL.write(120);
-  GL.write(120);
-  delay(2000);
+  Serial.begin(9600);
+  while(!Serial);
+  for(int i=0; i<5; i++)
+  {
+    fake_numbers[i][0] = 50;
+    for(int j=1; j<100; j++)
+    {
+      fake_numbers[i][j] = fake_numbers[i][j-1] + random(-1,2);
+      if(fake_numbers[i][j] < 20)
+      {
+        fake_numbers[i][j] = 20;
+      }
+      if(fake_numbers[i][j] > 90)
+      {
+        fake_numbers[i][j] = 90;
+      }
+    }
+  }
 
-  CT.write(45);
-  GT.write(10);
-  RL.write(60);
-  CL.write(60);
-  GL.write(60);
-  delay(2000);
+  CT.attach(5);
+  GT.attach(6);
+  RL.attach(9);
+  CL.attach(10);
+  GL.attach(11);
 
-  CT.write(135);
-  GT.write(170);
-  RL.write(120);
-  CL.write(120);
-  GL.write(120);
-  delay(2000);
 
-  GT.detach();
-  
+  servos[0]=CT;
+  servos[1]=GT;
+  servos[2]=RL;
+  servos[3]=CL;
+  servos[4]=GL;
+
+  for(int percentage =0; percentage<=100; percentage=percentage+1)
+  {
+    for(int i = 0; i < 5; i++)
+    {
+      Servo tmp_servo = servos[i];
+      int servoAngle = getRangeAdjustedValues(percentage, details[i]);
+      tmp_servo.write(servoAngle);
+    }
+    delay(25);
+  }
+  for(int percentage =100; percentage>=0; percentage=percentage-1)
+  {
+    for(int i = 0; i < 5; i++)
+    {
+      Servo tmp_servo = servos[i];
+      int servoAngle = getRangeAdjustedValues(percentage, details[i]);
+      tmp_servo.write(servoAngle);
+    }
+    delay(25);
+  }
 }
 
 void loop()
 {
-
+  for(int i=0; i<5;i++)
+  {
+    Servo tmp_servo = servos[i];
+    int servoAngle = getRangeAdjustedValues(fake_numbers[i][counter], details[i]);
+    tmp_servo.write(servoAngle);
+  }
+  delay(1000);
+  counter++;
+  if (counter>99)
+  {
+    counter=0;
+  }
 }

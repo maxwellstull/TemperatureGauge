@@ -79,7 +79,7 @@ class OSensor():
         self.value = value
         self.index = str(index)
         self.id = str(iden)
-        self.history = CQueue(32)
+        self.history = CQueue(16)
     def __repr__(self):
         retval = "\tSensor:\n\t\tName:" + str(self.name)
         retval += "\n\t\tType:" + str(self.type)

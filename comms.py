@@ -21,7 +21,7 @@
 openhardwaremonitor_hwtypes = ['Mainboard','SuperIO','CPU','RAM','GpuNvidia','GpuAti','TBalancer','Heatmaster','HDD']
 openhardwaremonitor_sensortypes = ['Voltage','Clock','Temperature','Load','Fan','Flow','Control','Level','Factor','Power','Data','SmallData','Throughput']
 
-REFRESH_RATE_HZ = 2
+REFRESH_RATE_HZ = 1
 
 
 import time

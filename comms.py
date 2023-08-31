@@ -29,13 +29,19 @@ import asyncio
 import serial
 from hardwareLogger import hardwareLogger
 from serialComm import serialComm
+import serial.tools.list_ports
 
 async def main():
+    ports = serial.tools.list_ports.comports()
+    portname = ""
+    for port in ports:
+        if 'Arduino' in port[1]:
+            portname = port[0]
+
     refresh_period_sec = 1/REFRESH_RATE_HZ
     hw = hardwareLogger()
-    arduino = serialComm(port='COM7', baud=115200, timeout=0.1)
+    arduino = serialComm(port=portname, baud=115200, timeout=0.1)
     print(arduino.write_read('12'))
-
     for _ in range(0,10): # Loop to read
         start = time.time()
         hw.read()

@@ -109,4 +109,7 @@ class hardwareLogger():
                     pass
         # Now check we got everything            
         for codename, id in self.key_values.items():
-            print("\tConnected: {c} -> [{i}]{j}".format(c=codename, i=id[0], j=id[1]))
+            if id is not None:
+                print("\tConnected: {c} -> [{i}]{j}".format(c=codename, i=id[0], j=id[1]))
+            else:
+                print("\tFailed: {c}".format(c=codename))

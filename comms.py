@@ -41,14 +41,15 @@ async def main():
     refresh_period_sec = 1/REFRESH_RATE_HZ
     hw = hardwareLogger()
     arduino = serialComm(port=portname, baud=9600, timeout=2)
-    for _ in range(0,10): # Loop to read
+    for _ in range(0,100): # Loop to read
         start = time.time()
         hw.read()
 
         to_send = hw.get_values_to_send()
         to_send_str = "{:3}{:3}{:3}{:3}{:3}".format(to_send[0], to_send[1], to_send[2], to_send[3], to_send[4])
+        print("Sending", to_send)
         result = arduino.write_read(to_send_str)
-        if(int(result) == 1):
+        if(result == b'1'):
             pass 
         else:
             print("Something broke")

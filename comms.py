@@ -32,15 +32,24 @@ from serialComm import serialComm
 import serial.tools.list_ports
 
 async def main():
-    ports = serial.tools.list_ports.comports()
-    portname = ""
-    for port in ports:
-        if 'Arduino' in port[1]:
-            portname = port[0]
-
     refresh_period_sec = 1/REFRESH_RATE_HZ
     hw = hardwareLogger()
-    arduino = serialComm(port=portname, baud=9600, timeout=2)
+    found_port = False
+    portname = ""
+    ctr = 0
+    while(found_port is False):
+        ports = serial.tools.list_ports.comports()
+        for port in ports:
+            if 'Arduino' in port[1]:
+                print("Arduino port identified: ", port[0])
+                portname = port[0]
+                found_port = True
+        asyncio.sleep(1)
+        if ctr % 5 == 0:
+            print("Attempting to identify to Arduino port")
+
+    arduino = serialComm(port=portname, baud=9600, timeout=1)
+
     for _ in range(0,100): # Loop to read
         start = time.time()
         hw.read()
@@ -52,15 +61,10 @@ async def main():
         if(result == b'1'):
             pass 
         else:
-            print("Something broke")
+            print("Ak not received")
 
 
         await asyncio.sleep(refresh_period_sec - (time.time() - start))
-
-
-#    for key, value in hw.hardware_obj_dict.items():
-#        print(value)
-
 
 if __name__ == "__main__":
     asyncio.run(main())

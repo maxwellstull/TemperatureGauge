@@ -113,3 +113,9 @@ class hardwareLogger():
                 print("\tConnected: {c} -> [{i}]{j}".format(c=codename, i=id[0], j=id[1]))
             else:
                 print("\tFailed: {c}".format(c=codename))
+    def get_values_to_send(self):
+        retval = []
+        for key in ['CT','GT','RL','CL','GL']:
+            average = self.hardware_obj_dict[self.key_values[key][0]].sens_ids[self.key_values[key][1]].history.get_avg()
+            retval.append(round(average))
+        return retval

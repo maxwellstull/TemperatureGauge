@@ -21,7 +21,7 @@
 openhardwaremonitor_hwtypes = ['Mainboard','SuperIO','CPU','RAM','GpuNvidia','GpuAti','TBalancer','Heatmaster','HDD']
 openhardwaremonitor_sensortypes = ['Voltage','Clock','Temperature','Load','Fan','Flow','Control','Level','Factor','Power','Data','SmallData','Throughput']
 
-REFRESH_RATE_HZ = 0.5
+REFRESH_RATE_HZ = 2
 
 
 import time
@@ -40,21 +40,25 @@ async def main():
 
     refresh_period_sec = 1/REFRESH_RATE_HZ
     hw = hardwareLogger()
-    arduino = serialComm(port=portname, baud=115200, timeout=0.1)
-    print(arduino.write_read('12'))
+    arduino = serialComm(port=portname, baud=9600, timeout=2)
     for _ in range(0,10): # Loop to read
         start = time.time()
         hw.read()
 
-
-
+        to_send = hw.get_values_to_send()
+        to_send_str = "{:3}{:3}{:3}{:3}{:3}".format(to_send[0], to_send[1], to_send[2], to_send[3], to_send[4])
+        result = arduino.write_read(to_send_str)
+        if(int(result) == 1):
+            pass 
+        else:
+            print("Something broke")
 
 
         await asyncio.sleep(refresh_period_sec - (time.time() - start))
 
 
-    for key, value in hw.hardware_obj_dict.items():
-        print(value)
+#    for key, value in hw.hardware_obj_dict.items():
+#        print(value)
 
 
 if __name__ == "__main__":

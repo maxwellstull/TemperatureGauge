@@ -14,28 +14,20 @@ void loop() {
   digitalWrite(LED_BUILTIN, LOW);   // turn the LED off by making the voltage LOW
   delay(tempo);  
 }
-
-void serialEvent()
-{
-  while(Serial.available())
-  {
-    char ch = Serial.read();
-    tempo = 500;
-    Serial.write(ch);
-  }
-}*/
-/*
-int x;
-void setup() {
- Serial.begin(115200);
- Serial.setTimeout(1);
-}
-void loop() {
- while (!Serial.available());
- x = Serial.readString().toInt();
- Serial.print(x + 1);
-}
 */
+
+
+//float x;
+//void setup() {
+// Serial.begin(115200);
+// Serial.setTimeout(1);
+//}
+//void loop() {
+// while (!Serial.available());
+// x = Serial.readString().toFloat();
+// Serial.print(x);
+//}
+
 int getRangeAdjustedValues(int value, int details[3])
 {
   int leftBound = details[1];
@@ -51,31 +43,16 @@ Servo RL;
 Servo CL;
 Servo GL;
 
-float values[5];
+String input_string = "";
+int values[5];
 Servo servos[5];
 int details[5][3] = {{5, 140, 30},{6, 170, 10},{9, 120, 60},{10,120,60},{11,120,60}};
-int fake_numbers[5][100];
 int counter=0;
 
 void setup() {
   Serial.begin(9600);
+  input_string.reserve(200);
   while(!Serial);
-  for(int i=0; i<5; i++)
-  {
-    fake_numbers[i][0] = 50;
-    for(int j=1; j<100; j++)
-    {
-      fake_numbers[i][j] = fake_numbers[i][j-1] + random(-1,2);
-      if(fake_numbers[i][j] < 20)
-      {
-        fake_numbers[i][j] = 20;
-      }
-      if(fake_numbers[i][j] > 90)
-      {
-        fake_numbers[i][j] = 90;
-      }
-    }
-  }
 
   CT.attach(5);
   GT.attach(6);
@@ -114,16 +91,27 @@ void setup() {
 
 void loop()
 {
+  while(Serial.available() == 0) { }
+  readSerial();
   for(int i=0; i<5;i++)
   {
     Servo tmp_servo = servos[i];
-    int servoAngle = getRangeAdjustedValues(fake_numbers[i][counter], details[i]);
+    int servoAngle = getRangeAdjustedValues(values[i], details[i]);
     tmp_servo.write(servoAngle);
   }
-  delay(1000);
-  counter++;
-  if (counter>99)
+}
+void readSerial()
+{
+  if(Serial.available() > 0)
   {
-    counter=0;
+    input_string = Serial.readStringUntil('\n');
   }
+
+  values[0] = input_string.substring(0,3).toInt();
+  values[1] = input_string.substring(3,6).toInt();
+  values[2] = input_string.substring(6,9).toInt();
+  values[3] = input_string.substring(9,12).toInt();
+  values[4] = input_string.substring(12,15).toInt();
+
+  Serial.write('1');
 }
